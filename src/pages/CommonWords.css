@@ -1,0 +1,72 @@
+.words-test {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.check-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: white;
+  background-color: var(--background);
+}
+
+.word-input {
+  margin-top: 0.2rem;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.diff-viewer {
+  margin-top: 2rem;
+  background: purple;
+  width: 50%;
+}
+
+.next {
+  display: table;
+  text-decoration: none;
+  color: #fff;
+  background: inherit;
+  border: 0;
+}
+.next > span {
+  display: table-cell;
+  vertical-align: middle;
+  background-color: #de3614;
+  padding: 0 0.5em 0 1em;
+  line-height: 1;
+}
+.next:before,
+.next:after {
+  display: table-cell;
+  content: "";
+  border-top: 1.5em solid;
+  border-bottom: 1.5em solid;
+  border-left: 1.5em solid;
+}
+.next:before {
+  border-top-color: #de3614;
+  border-bottom-color: #de3614;
+  border-left-color: transparent;
+}
+.next:after {
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: #de3614;
+}
+
+.next-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  width: 50%;
+  background-color: var(--background);
+}
