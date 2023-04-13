@@ -13,6 +13,7 @@
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: Lato, sans-serif;
 }
 /*
   3. Allow percentage-based heights in the application
@@ -58,4 +59,13 @@ p, h1, h2, h3, h4, h5, h6 {
 */
 #root, #__next {
   isolation: isolate;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 3rem auto 0 auto;
+}
+
+.center {
+  text-align: center;
 }

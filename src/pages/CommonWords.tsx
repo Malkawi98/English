@@ -17,18 +17,22 @@ function CommonWords() {
     const [showNext, setShowNext] = useState(false);
     const [tts, setTts] = useState('');
     useEffect(() => {
-        console.log(currentWord)
-        let req = new XMLHttpRequest()
-        req.open('POST', `https://tiktok-tts.weilnet.workers.dev/api/generation`, false)
-        req.setRequestHeader('Content-Type', 'application/json')
-        req.send(JSON.stringify({
-            text: currentWord,
-            voice: "en_us_001"
-        }))
-
-         let resp = JSON.parse(req.responseText)
-        console.log(resp.data)
-            setTts(`data:audio/mpeg;base64,${resp.data}`)
+        fetch(`https://tiktok-tts.weilnet.workers.dev/api/generation`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: currentWord,
+                voice: "en_us_001"
+            })
+        }).then(res => res.json()).then(res => {
+            console.log(res)
+            setTts(`data:audio/mpeg;base64,${res.data}`)
+        }).catch(err => {
+            console.log(err)
+        })
+        
     },[currentWord])
 
     function checkAnswer(e: any) {
