@@ -10,7 +10,7 @@ function App() {
         <div className="container">
             <Router>
                 <Routes>
-                    <Route path="/" element={<Home/>}/>
+                    <Route path="/English" element={<Home/>}/>
                     <Route path="/common-words" element={<CommonWords/>}/>
                 </Routes>
             </Router>
