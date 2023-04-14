@@ -19,11 +19,13 @@ function CommonWords() {
     const [tts, setTts] = useState('');
     const [voice, setVoice] = useState('en_us_001');
     const [voiceName, setVoiceName] = useState('Please select a voice');
-    const voices = {
-        'English US': {'Female': 'en_us_001', 'Male 1': 'en_us_006', 'Male 2': 'en_us_007'},
-        'English UK': {'Male 1': 'en_uk_001', 'Male 2': 'en_uk_003'},
-        'English AU': {'Male 1': 'en_au_001', 'Male 2': 'en_au_003'},
-    }
+    const voices = [
+        { name: 'English US', voices: ['Female', 'Male 1', 'Male 2'] },
+        { name: 'English UK', voices: ['Male 1', 'Male 2'] },
+        { name: 'English AU', voices: ['Male 1', 'Male 2'] },
+    ];
+
+
     useEffect(() => {
         fetch(`https://tiktok-tts.weilnet.workers.dev/api/generation`, {
             method: 'POST', headers: {
@@ -68,17 +70,17 @@ function CommonWords() {
                 const value = e.target.value;
                 const innerText = e.target.options[e.target.selectedIndex].innerText;
                  setVoiceName(innerText); setVoice(value)}}>
-                <option defaultValue={true} disabled hidden value="none">{voiceName}</option>
-                {Object.keys(voices).map((key, index) => {
-                    return <>
-                        <option disabled className="bold">{key}</option>
-                        {Object.keys(voices[key] as Array<keyof typeof v>).map((key2, index2) => {
-                            return <option
-                                           value={voices[key][key2]}>{key2}</option>
+                <option disabled hidden value="none">{voiceName}</option>
+                {voices.map((voice) => {
+                    return( <>
+                        <option disabled className="bold">{voice.name}</option>
+                        {voice.voices.map((voice2, index2) => {
+                             return <option value={voice.name.toLowerCase().replace(' ', '_') + '_' + (index2 + 1).toString().padStart(3, '0')}>{voice2}</option>
                         })}
-                        <option disabled></option>
-                    </>
+                        </>
+                    )
                 })}
+
             </select>
             <Audio src={tts}></Audio>
             <TextInput onEnterPress={checkAnswer}></TextInput>
