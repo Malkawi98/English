@@ -52,3 +52,16 @@
   transition: all 0.2s ease-in-out;
   margin-top: 1rem;
 }
+
+@media only screen and (max-width:900px) {
+  .index-container > section:first-of-type, .index-container > section:nth-of-type(2) {
+    grid-template-columns: 1fr;
+  }
+  .index-container > section:first-of-type > img, .index-container > section:nth-of-type(2) > img {
+    max-height: 350px;
+  }
+
+  .index-container > section:nth-of-type(2) > img {
+    display: none;
+  }
+}

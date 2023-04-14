@@ -4,6 +4,17 @@
   flex-direction: column;
 }
 
+select {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+}
+option {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+
+}
+
 .check-words {
   display: flex;
   flex-direction: column;
@@ -12,6 +23,7 @@
   height: 100%;
   color: white;
   background-color: var(--background);
+  gap: 10px;
 }
 
 .word-input {
