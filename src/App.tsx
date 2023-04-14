@@ -11,7 +11,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/English" element={<Home/>}/>
-                    <Route path="English/common-words" element={<CommonWords/>}/>
+                    <Route path="/English/common-words" element={<CommonWords/>}/>
                 </Routes>
             </Router>
         </div>);

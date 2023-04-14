@@ -3,24 +3,23 @@ import './Home.css';
 import laptop from '../../public/laptop.gif';
 import womenTyping from '../../public/women-typing.gif';
 import {Link} from "react-router-dom";
+
 function Home() {
     return <div className='index-container'>
         <h1 className='center'>Master Your Spelling Practice Exercises!</h1>
         <section className='section'>
             <div>
-                <p><span className='header'>Elevate your writing game</span> cutting-edge voice-to-text
-                    technology! Our website
-                    provides an innovative way to enhance your English writing skills by practicing
-                    spelling
-                    through speaking. With our user-friendly platform, you can easily train your
-                    spelling
-                    abilities using your voice and receive instant feedback. Whether you're on-the-go or
-                    prefer a hands-free approach, our voice-to-text feature is designed to help you
-                    master
-                    your spelling in the most convenient way possible. Try it out today and take your
-                    English writing skills to the next level</p>
+                <p><span className='header'>Elevate your writing game</span> Boost your IELTS
+                    writing skills with our unique approach to learning the most common 5000 IELTS
+                    words! Our website offers an immersive experience that combines auditory and
+                    written practice to enhance your vocabulary and spelling abilities. By hearing
+                    the word and writing it down, you'll develop a stronger understanding of the
+                    correct spelling and pronunciation. And if you make a mistake, don't worry! Our
+                    website provides instant feedback and correction to help you learn from your
+                    errors. With our effective and personalized approach, you'll be well on your way
+                    to achieving your IELTS goals. </p>
 
-                <Link className='btn' to={'/common-words'} >
+                <Link className='btn' to={'/common-words'}>
                     Start Practicing
                 </Link>
             </div>
@@ -28,7 +27,8 @@ function Home() {
         </section>
         <section className='section'>
             <img src={womenTyping} alt=""/>
-            <p><span className='header'>Improve your English writing skills with ease!</span>Our website offers a simple and
+            <p><span className='header'>Improve your English writing skills with ease!</span>Our
+                website offers a simple and
                 effective way to enhance your spelling through regular practice. Whether you're a
                 student, professional, or simply looking to sharpen your language skills, our
                 platform is the perfect tool to help you reach your writing goals. Start practicing
