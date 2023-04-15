@@ -64,7 +64,7 @@ function CommonWords() {
 
     const v = {'string': {'string': 'string'}};
     return <div className='words-test'>
-        <h1>Practice the most common 5000 Ielts words</h1>
+        <h1 className='center'>Practice the most common 5000 Ielts words</h1>
         <div className='check-words'>
             <select onChange={(e) => {
                 const value = e.target.value;

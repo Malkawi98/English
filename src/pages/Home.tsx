@@ -19,7 +19,7 @@ function Home() {
                     errors. With our effective and personalized approach, you'll be well on your way
                     to achieving your IELTS goals. </p>
 
-                <Link className='btn' to={'/common-words'}>
+                <Link className='btn' to={'/English/common-words'}>
                     Start Practicing
                 </Link>
             </div>
