@@ -11,6 +11,9 @@ function CommonWords() {
     enum DiffMethod {
         CHARS = 'diffChars',
     }
+    interface VoiceOptions {
+        [key: string]: string;
+    }
 
     const [currentWord, setCurrentWord] = useState(words[Math.floor(Math.random() * words.length)]);
     const [enteredWord, setEnteredWord] = useState('');
@@ -20,9 +23,18 @@ function CommonWords() {
     const [voice, setVoice] = useState('en_us_001');
     const [voiceName, setVoiceName] = useState('Please select a voice');
     const voices = [
-        { name: 'English US', voices: ['Female', 'Male 1', 'Male 2'] },
-        { name: 'English UK', voices: ['Male 1', 'Male 2'] },
-        { name: 'English AU', voices: ['Male 1', 'Male 2'] },
+        {
+            name: 'English US',
+            voices: {
+                'Female': 'en_us_001',
+                'Male 1': 'en_us_006',
+                'Male 2': 'en_us_007',
+                'Male 3': 'en_us_009',
+                'Male 4': 'en_us_010'
+            } as VoiceOptions
+        },
+        {name: 'English UK', voices: {'Male 1': 'en_uk_001', 'Male 2': 'en_uk_003'} as VoiceOptions},
+        {name: 'English AU', voices: {'Male 1': 'en_au_001', 'Male 2': 'en_au_002'} as VoiceOptions},
     ];
 
 
@@ -69,14 +81,16 @@ function CommonWords() {
             <select onChange={(e) => {
                 const value = e.target.value;
                 const innerText = e.target.options[e.target.selectedIndex].innerText;
-                 setVoiceName(innerText); setVoice(value)}}>
+                setVoiceName(innerText);
+                setVoice(value)
+            }}>
                 <option disabled hidden value="none">{voiceName}</option>
                 {voices.map((voice) => {
-                    return( <>
-                        <option disabled className="bold">{voice.name}</option>
-                        {voice.voices.map((voice2, index2) => {
-                             return <option value={voice.name.toLowerCase().replace(' ', '_') + '_' + (index2 + 1).toString().padStart(3, '0')}>{voice2}</option>
-                        })}
+                    return (<>
+                            <option disabled className="bold">{voice.name}</option>
+                            {Object.keys(voice.voices).map((key) => {
+                                return (<option value={voice.voices[key]}>{key}</option>)
+                            })}
                         </>
                     )
                 })}
