@@ -3,7 +3,6 @@ import Home from "./pages/Home";
 
 import CommonWords from "./pages/CommonWords";
 import Navbar from "./components/Navbar";
-import PracticeParagraphs from "./pages/PracticeParagraphs";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
     return (<>
