@@ -3,7 +3,13 @@
   width: 400px;
   border-radius: 10px;
 }
-.word-input::placeholder {
+.paragraph-input{
+  height: 200px;
+  width: 600px;
+  max-width: 600px;
+  border-radius: 10px;
+}
+.word-input::placeholder, .paragraph-input::placeholder{
   text-align: center;
 }
 

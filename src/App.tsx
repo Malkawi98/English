@@ -1,21 +1,22 @@
 import React from 'react';
 import Home from "./pages/Home";
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import CommonWords from "./pages/CommonWords";
 import Navbar from "./components/Navbar";
-
+import PracticeParagraphs from "./pages/PracticeParagraphs";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
     return (<>
-                <Router>
+                <BrowserRouter>
                     <Navbar/>
                     <div className="container">
                     <Routes>
                         <Route path="/English" element={<Home/>}/>
-                        <Route path="/English/common-words" element={<CommonWords/>}/>
+                        <Route path="/English/common-words"  element={<CommonWords textType='words'/>}/>
+                        <Route path="/English/practice-paragraphs" element={<CommonWords textType='paragraphs'/>}/>
                     </Routes>
                     </div>
-                </Router>
+                </BrowserRouter>
         </>);
 }
 

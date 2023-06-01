@@ -1,57 +1,48 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Audio from "../components/Audio";
 import TextInput from "../components/TextInput";
 import './CommonWords.css';
 import ReactDiffViewer from 'react-diff-viewer-continued';
 import {words} from './words';
+import textObject from '../utils/TextUtil';
+import {paragraphs} from "./Paragraphs";
+import {voices} from '../utils/voiceOptions';
+import fetchAudioFile from "../utils/fetchAudioFile";
+import {TextArea} from "../components/TextArea";
+import {useLocation} from "react-router-dom";
 
-CommonWords.propTypes = {};
+interface propTypes {
+    textType: string
+}
 
-function CommonWords() {
+function CommonWords({textType = 'words'}: propTypes) {
     enum DiffMethod {
         CHARS = 'diffChars',
     }
-    interface VoiceOptions {
-        [key: string]: string;
-    }
 
-    const [currentWord, setCurrentWord] = useState(words[Math.floor(Math.random() * words.length)]);
+    let practiceType = textType === 'words' ? words : paragraphs;
+
+    const location = useLocation();
     const [enteredWord, setEnteredWord] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
+    const [currentWord, setCurrentWord] = useState(practiceType[Math.floor(Math.random() * practiceType.length)])
     const [showNext, setShowNext] = useState(false);
     const [tts, setTts] = useState('');
     const [voice, setVoice] = useState('en_us_001');
     const [voiceName, setVoiceName] = useState('Please select a voice');
-    const voices = [
-        {
-            name: 'English US',
-            voices: {
-                'Female': 'en_us_001',
-                'Male 1': 'en_us_006',
-                'Male 2': 'en_us_007',
-                'Male 3': 'en_us_009',
-                'Male 4': 'en_us_010'
-            } as VoiceOptions
-        },
-        {name: 'English UK', voices: {'Male 1': 'en_uk_001', 'Male 2': 'en_uk_003'} as VoiceOptions},
-        {name: 'English AU', voices: {'Male 1': 'en_au_001', 'Male 2': 'en_au_002'} as VoiceOptions},
-    ];
 
+    const audioRef = useRef(null);
 
     useEffect(() => {
-        fetch(`https://tiktok-tts.weilnet.workers.dev/api/generation`, {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify({
-                text: currentWord, voice: voice,
-            })
-        }).then(res => res.json()).then(res => {
-            setTts(`data:audio/mpeg;base64,${res.data}`)
-        }).catch(err => {
-            console.log(err)
-        })
+        setCurrentWord(practiceType[Math.floor(Math.random() * practiceType.length)]);
+    }, [voiceName, textType, location])
+    useEffect(() => {
+        fetchAudioFile(currentWord, voice, setTts).catch()
+        return () => {
+            setTts('');
+        }
+    }, [currentWord]);
 
-    }, [currentWord, voiceName])
 
     function checkAnswer(e: any) {
         if (e.key === 'Enter') {
@@ -64,21 +55,22 @@ function CommonWords() {
             e.target.value = '';
             e.target.placeholder = ''
             setShowNext(true)
-
         }
     }
 
-    function loadNextQuestion() {
-        setCurrentWord(words[Math.floor(Math.random() * words.length)]);
+    async function loadNextQuestion() {
+        setCurrentWord(practiceType[Math.floor(Math.random() * practiceType.length)]);
         setIsCorrect(false);
         setShowNext(false);
     }
 
-    const v = {'string': {'string': 'string'}};
-    return <div className='words-test'>
-        <h1 className='center'>Practice the most common 5000 Ielts words</h1>
+    type v = {
+        [key: string]: boolean
+    }
+    return (<div className='words-test'>
+        <h1 className='center'>{textObject[textType].header}</h1>
         <div className='check-words'>
-            <select onChange={(e) => {
+            <select className={'select'} onChange={(e) => {
                 const value = e.target.value;
                 const innerText = e.target.options[e.target.selectedIndex].innerText;
                 setVoiceName(innerText);
@@ -86,40 +78,38 @@ function CommonWords() {
             }}>
                 <option disabled hidden value="none">{voiceName}</option>
                 {voices.map((voice) => {
-                    return (<>
-                            <option disabled className="bold">{voice.name}</option>
-                            {Object.keys(voice.voices).map((key) => {
-                                return (<option value={voice.voices[key]}>{key}</option>)
-                            })}
-                        </>
-                    )
+                    return (<React.Fragment key={voice.name}>
+                        <option key={voice.name} disabled className="bold">{voice.name}</option>
+                        {Object.keys(voice.voices).map((key) => {
+                            return (<option key={voice.voices[key]} value={voice.voices[key]}>{key}</option>)
+                        })}
+                    </React.Fragment>)
                 })}
 
             </select>
-            <Audio src={tts}></Audio>
-            <TextInput onEnterPress={checkAnswer}></TextInput>
+            <Audio audioRef={audioRef} src={tts}></Audio>
+            {textType === 'words' && <TextInput textType={textType} onEnterPress={checkAnswer}/>}
+            {textType === 'paragraphs' && <TextArea textType={textType} onEnterPress={checkAnswer}/>}
             {isCorrect && <div className='diff-viewer'>
-              <ReactDiffViewer
-                styles={customStyles}
-                compareMethod={DiffMethod.CHARS}
-                oldValue={currentWord}
-                newValue={enteredWord}
-                splitView={false}
-                hideLineNumbers={true}/>
+                <ReactDiffViewer
+                    styles={customStyles}
+                    compareMethod={DiffMethod.CHARS}
+                    newValue={currentWord}
+                    oldValue={enteredWord}
+                    splitView={false}
+                    hideLineNumbers={true}/>
             </div>}
             <div className='next-steps'>
-                {showNext &&
-                  <svg xmlns="http://www.w3.org/2000/svg" fill='white' width="24" height="24"
-                       viewBox="0 0 24 24">
+                {showNext && <svg xmlns="http://www.w3.org/2000/svg" fill='white' width="24" height="24"
+                                  viewBox="0 0 24 24">
                     <path
-                      d="M12 0c-3.31 0-6.291 1.353-8.459 3.522l-2.48-2.48-1.061 7.341 7.437-.966-2.489-2.488c1.808-1.808 4.299-2.929 7.052-2.929 5.514 0 10 4.486 10 10s-4.486 10-10 10c-3.872 0-7.229-2.216-8.89-5.443l-1.717 1.046c2.012 3.803 6.005 6.397 10.607 6.397 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
-                  </svg>}
-                {showNext &&
-                  <button className="next" onClick={loadNextQuestion}><span>Next Word</span>
-                  </button>}
+                        d="M12 0c-3.31 0-6.291 1.353-8.459 3.522l-2.48-2.48-1.061 7.341 7.437-.966-2.489-2.488c1.808-1.808 4.299-2.929 7.052-2.929 5.514 0 10 4.486 10 10s-4.486 10-10 10c-3.872 0-7.229-2.216-8.89-5.443l-1.717 1.046c2.012 3.803 6.005 6.397 10.607 6.397 6.627 0 12-5.373 12-12s-5.373-12-12-12z"/>
+                </svg>}
+                {showNext && <button className="next" onClick={loadNextQuestion}><span>Next Word</span>
+                </button>}
             </div>
         </div>
-    </div>;
+    </div>);
 }
 
 const customStyles: any = {
@@ -127,7 +117,7 @@ const customStyles: any = {
         display: "none"
     }, contentText: {
         textAlign: "center",
-    }
+    },
 };
 
 

@@ -8,10 +8,18 @@ select {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   width: fit-content;
+  background: white;
+  border: navajowhite;
+  border-radius: 5px;
+  padding: 8px 20px;
 }
 option {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+
+}
+
+audio {
 
 }
 
@@ -20,7 +28,7 @@ option {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  margin-top: 5rem;
   color: white;
   background-color: var(--background);
   gap: 10px;
@@ -28,6 +36,7 @@ option {
 
 .word-input {
   margin-top: 0.2rem;
+  text-align: center;
 }
 
 
@@ -68,6 +77,14 @@ option {
   border-top-color: transparent;
   border-bottom-color: transparent;
   border-left-color: #de3614;
+}
+
+.next:hover{
+  cursor: pointer;
+}
+
+svg:hover {
+  cursor: pointer;
 }
 
 .next-steps {

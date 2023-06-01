@@ -1,3 +1,16 @@
 audio {
-  width: 50%;
+    position: relative;
+}
+
+.player-container {
+    position: relative;
+}
+
+.play-speed {
+    background: #3A3A38;
+    position: absolute;
+    bottom: 2px;
+    color: white;
+    border-radius: 0.5rem;
+
 }

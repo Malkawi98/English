@@ -11,6 +11,7 @@ function Navbar() {
                     <li><Link className='hover-underline-animation' to="/English/">Home</Link></li>
                     <li><Link className='hover-underline-animation' to="/English/common-words">Common
                         Words</Link></li>
+                    <li><Link className='hover-underline-animation' to="/English/practice-paragraphs">Practice Paragraphs</Link></li>
                 </ul>
             </nav>
         </header>
