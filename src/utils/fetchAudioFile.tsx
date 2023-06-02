@@ -1,5 +1,5 @@
 const fetchAudioFile = (currentWord: string, voice: string, setTts: any) => {
-
+    if (currentWord === '') return;
     return fetch(`https://tiktok-tts.weilnet.workers.dev/api/generation`, {
         method: 'POST', headers: {
             'Content-Type': 'application/json'

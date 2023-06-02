@@ -17,7 +17,7 @@ interface propTypes {
 
 function CommonWords({textType = 'words'}: propTypes) {
     enum DiffMethod {
-        CHARS = 'diffChars',
+        CHARS = 'diffChars', WORDS = 'diffWords',
     }
 
     let practiceType = textType === 'words' ? words : paragraphs;
@@ -25,26 +25,24 @@ function CommonWords({textType = 'words'}: propTypes) {
     const location = useLocation();
     const [enteredWord, setEnteredWord] = useState('');
     const [isCorrect, setIsCorrect] = useState(false);
-    const [currentWord, setCurrentWord] = useState(practiceType[Math.floor(Math.random() * practiceType.length)])
+    const [currentWord, setCurrentWord] = useState('');
     const [showNext, setShowNext] = useState(false);
     const [tts, setTts] = useState('');
     const [voice, setVoice] = useState('en_us_001');
     const [voiceName, setVoiceName] = useState('Please select a voice');
 
     const audioRef = useRef(null);
-
     useEffect(() => {
         setCurrentWord(practiceType[Math.floor(Math.random() * practiceType.length)]);
-    }, [voiceName, textType, location])
+    }, [voiceName, location.pathname])
+
     useEffect(() => {
-        fetchAudioFile(currentWord, voice, setTts).catch()
-        return () => {
-            setTts('');
-        }
-    }, [currentWord]);
+        fetchAudioFile(currentWord, voice, setTts)?.catch()
+    }, [currentWord])
 
 
     function checkAnswer(e: any) {
+        console.log('current word', currentWord, 'entered word', enteredWord)
         if (e.key === 'Enter') {
             if (e.target.value === currentWord) {
                 setIsCorrect(false)
@@ -59,11 +57,12 @@ function CommonWords({textType = 'words'}: propTypes) {
     }
 
     async function loadNextQuestion() {
-        setCurrentWord(practiceType[Math.floor(Math.random() * practiceType.length)]);
+        await setCurrentWord(practiceType[Math.floor(Math.random() * practiceType.length)]);
         setIsCorrect(false);
         setShowNext(false);
     }
 
+    const customStyles: any = {marker: {display: "none"}, contentText: {textAlign: "center",}};
     type v = {
         [key: string]: boolean
     }
@@ -74,26 +73,26 @@ function CommonWords({textType = 'words'}: propTypes) {
                 const value = e.target.value;
                 const innerText = e.target.options[e.target.selectedIndex].innerText;
                 setVoiceName(innerText);
-                setVoice(value)
+                setVoice(value);
             }}>
                 <option disabled hidden value="none">{voiceName}</option>
                 {voices.map((voice) => {
                     return (<React.Fragment key={voice.name}>
                         <option key={voice.name} disabled className="bold">{voice.name}</option>
                         {Object.keys(voice.voices).map((key) => {
-                            return (<option key={voice.voices[key]} value={voice.voices[key]}>{key}</option>)
+                            return (<option key={voice.voices[key]} value={voice.voices[key]}>{key}</option>);
                         })}
-                    </React.Fragment>)
+                    </React.Fragment>);
                 })}
 
             </select>
             <Audio audioRef={audioRef} src={tts}></Audio>
             {textType === 'words' && <TextInput textType={textType} onEnterPress={checkAnswer}/>}
             {textType === 'paragraphs' && <TextArea textType={textType} onEnterPress={checkAnswer}/>}
-            {isCorrect && <div className='diff-viewer'>
+            {isCorrect && currentWord && <div className='diff-viewer'>
                 <ReactDiffViewer
                     styles={customStyles}
-                    compareMethod={DiffMethod.CHARS}
+                    compareMethod={textType === 'words' ? DiffMethod.CHARS : DiffMethod.WORDS}
                     newValue={currentWord}
                     oldValue={enteredWord}
                     splitView={false}
@@ -111,14 +110,5 @@ function CommonWords({textType = 'words'}: propTypes) {
         </div>
     </div>);
 }
-
-const customStyles: any = {
-    marker: {
-        display: "none"
-    }, contentText: {
-        textAlign: "center",
-    },
-};
-
 
 export default CommonWords;

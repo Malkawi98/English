@@ -52,6 +52,10 @@
   margin-top: 1rem;
 }
 
+.link-block {
+  display: block;
+}
+
 @media only screen and (max-width:900px) {
   .index-container > section:first-of-type, .index-container > section:nth-of-type(2) {
     grid-template-columns: 1fr;

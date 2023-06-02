@@ -1,7 +1,7 @@
 import React from 'react';
 import './Home.css';
-import laptop from '../../public/laptop.gif';
-import womenTyping from '../../public/women-typing.gif';
+import laptop from '../assets/laptop.gif';
+import womenTyping from '../assets/women-typing.gif';
 import {Link} from "react-router-dom";
 
 function Home() {
@@ -20,7 +20,7 @@ function Home() {
                     to achieving your IELTS goals. </p>
 
                 <Link className='btn' to={'/English/common-words'}>
-                    Start Practicing
+                    Start Practicing Words
                 </Link>
             </div>
             <img src={laptop} alt=""/>
@@ -32,7 +32,13 @@ function Home() {
                 effective way to enhance your spelling through regular practice. Whether you're a
                 student, professional, or simply looking to sharpen your language skills, our
                 platform is the perfect tool to help you reach your writing goals. Start practicing
-                today and watch your spelling abilities soar!</p>
+                today and watch your spelling abilities soar!
+
+                <Link className='btn link-block' to={'/English/practice-paragraphs'}>
+                    Start Practicing Paragraphs
+                </Link>
+            </p>
+
         </section>
     </div>;
 }
